@@ -31,7 +31,7 @@ Slime Creep - A triple- duo channel chaotic CV generator for EuroPi, inspired by
 | B2      | Next creeper            |
 | B1+B2   | Back to sys menu        |
 | DIN     | Perturb all channels    |
-| AIN     | Coupling strength in    |
+| AIN     | Coupling strength       |
 
 ## Output Mapping
 
@@ -41,19 +41,14 @@ Slime Creep - A triple- duo channel chaotic CV generator for EuroPi, inspired by
 | Ooze    | CV2      | CV5      |
 | Smear   | CV3      | CV6      |
 
-## Display
+## Bottom Status Bar Description:
 
-┌─────────────────────────────┐
-│Creep                        │  ← Currently selected creeper
-│                             │
-│  [X Trace]                  │  ← Current creeper X trajectory
-│  [Y Trace]                  │  ← Current creeper Y Trajectory 
-│                             │
-│X2.5   D0.78   D.  A=        │  ← Current creeper Status
-└─────────────────────────────┘
+X:Speed value for the current creeper (0.3–10.0)
 
-Bottom Status Bar Description:
-X2.5           Speed value for the current creeper (0.3–10.0)    X0.3 (slowest) – X10.0 (fastest)
-D0.78          Depth value for the current creeper (0.05–2.0)    D0.05 (shallow) – D2.00 (deep)
-D. or D*       Disturbance indicator: D* indicates a recent DIN trigger (flashing)    D* is displayed for approximately 0.5 seconds after triggering
-A= A- A# A@    Ain coupling strength indicator: _ → - → = → # → @ represents 0%–100% The higher the external CV, the denser the symbols
+D:Depth value for the current creeper (0.05–2.0)
+
+D. or D* Disturbance indicator: 
+D* indicates a recent DIN trigger (flashing)
+
+A= A- A# A@  Ain coupling strength indicator:
+_ → - → = → # → @ represents 0%–100% The higher the external CV
