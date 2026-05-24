@@ -18,8 +18,8 @@ DEPTH_MAX = 2.0
 
 # 增量响应参数
 THRESH = 0.008
-SPD_SCALE = 25.0    # 增大，让一次转动覆盖更大范围
-DEP_SCALE = 4.0     # 增大，让一次转动覆盖更大范围
+SPD_SCALE = 25.0    
+DEP_SCALE = 4.0    
 
 BUTTON_WINDOW = 250
 
@@ -218,7 +218,7 @@ class SlimeCreep(EuroPiScript):
 
         # 增量响应（仅当转动超过阈值时）
         if abs(d1) > THRESH:
-            # 直接线性映射，手感直接
+            # 直接线性映射
             delta = d1 * SPD_SCALE
             s.speed = clamp(s.speed + delta, SPEED_MIN, SPEED_MAX)
 
