@@ -1,4 +1,4 @@
-# SLIME CREEP v1.11
+# SLIME CREEP v1.13
 
 from europi import *
 from europi_script import EuroPiScript
@@ -13,12 +13,13 @@ CHAOS_MS = 8
 # 旋钮映射参数：目标范围 speed 0.3 ~ 10.0
 SPEED_MIN = 0.3
 SPEED_MAX = 10.0
-# depth 范围保持 0.05 ~ 2.0
 DEPTH_MIN = 0.05
 DEPTH_MAX = 2.0
 
-# 指数响应曲线系数（手感柔顺）
-SENSITIVITY = 2.0
+# 增量响应参数
+THRESH = 0.008
+SPD_SCALE = 25.0    # 增大，让一次转动覆盖更大范围
+DEP_SCALE = 4.0     # 增大，让一次转动覆盖更大范围
 
 BUTTON_WINDOW = 250
 
@@ -126,8 +127,9 @@ class SlimeCreep(EuroPiScript):
         self.flash = 0
         self.coupling = 0
 
-        self.lk1 = k1.percent()
-        self.lk2 = k2.percent()
+        # 记录上一次旋钮位置，用于增量判断
+        self.last_k1 = k1.percent()
+        self.last_k2 = k2.percent()
 
         self.b1_time = 0
         self.b2_time = 0
@@ -156,15 +158,10 @@ class SlimeCreep(EuroPiScript):
             self.flash = 5
 
     def animate_snail(self, duration_ms=5000):
-        """
-        蜗牛开机动画
-        duration_ms: 动画时长（毫秒），默认5000ms = 5秒
-        帧切换间隔: 400ms（比原来慢一倍）
-        """
         start_time = ticks_ms()
         last_frame = start_time
         active_sel = self.sel
-        frame_interval = 400  # 毫秒，原200ms，慢一倍
+        frame_interval = 400
 
         while ticks_diff(ticks_ms(), start_time) < duration_ms:
             now = ticks_ms()
@@ -173,7 +170,7 @@ class SlimeCreep(EuroPiScript):
                 last_frame = now
 
             s = self.sloths[active_sel]
-            norm_x = (s.x + 5) / 10.0   # 0..1
+            norm_x = (s.x + 5) / 10.0
             snail_x = int(norm_x * 100) - 12
             snail_x = min(snail_x, 110)
 
@@ -182,7 +179,7 @@ class SlimeCreep(EuroPiScript):
 
             oled.fill(0)
             oled.text("Slime Creep", 0, 0)
-            oled.text("v1.11", 100, 24)
+            oled.text("v1.13", 100, 24)
             snail_char = [" ;@- ", " ;@ ~ "][self.snail_frame]
             oled.text(snail_char, snail_x, self.snail_y)
             oled.show()
@@ -211,14 +208,23 @@ class SlimeCreep(EuroPiScript):
         k1v = k1.percent()
         k2v = k2.percent()
 
-        mapped1 = k1v ** SENSITIVITY
-        mapped2 = k2v ** SENSITIVITY
+        # 计算旋钮变化量
+        d1 = k1v - self.last_k1
+        d2 = k2v - self.last_k2
 
-        new_speed = SPEED_MIN + mapped1 * (SPEED_MAX - SPEED_MIN)
-        new_depth = DEPTH_MIN + mapped2 * (DEPTH_MAX - DEPTH_MIN)
+        # 更新记录值
+        self.last_k1 = k1v
+        self.last_k2 = k2v
 
-        s.speed = clamp(new_speed, SPEED_MIN, SPEED_MAX)
-        s.depth = clamp(new_depth, DEPTH_MIN, DEPTH_MAX)
+        # 增量响应（仅当转动超过阈值时）
+        if abs(d1) > THRESH:
+            # 直接线性映射，手感直接
+            delta = d1 * SPD_SCALE
+            s.speed = clamp(s.speed + delta, SPEED_MIN, SPEED_MAX)
+
+        if abs(d2) > THRESH:
+            delta = d2 * DEP_SCALE
+            s.depth = clamp(s.depth + delta, DEPTH_MIN, DEPTH_MAX)
 
         self.coupling = ain.percent() * 2
 
@@ -264,7 +270,7 @@ class SlimeCreep(EuroPiScript):
         oled.show()
 
     def main(self):
-        self.animate_snail(5000)  # 5秒动画
+        self.animate_snail(5000)
         lc = ticks_ms()
         ld = ticks_ms()
         while True:
