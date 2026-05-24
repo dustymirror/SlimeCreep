@@ -11,13 +11,12 @@ Slime Creep - A triple- duo channel chaotic CV generator for EuroPi, inspired by
 ## Features
 
 - Three independent chaos generators: **Creep**, **Ooze**, **Smear**
-- 6 CV outputs (X/Y per channel), 0–10V range
+- 6 CV outputs (X/Y per creeper), 0–9.?V range
 - Speed control per channel (0.3–10x)
 - Depth control per channel (0.05–2.0)
-- External CV coupling via Ain input
+- External CV coupling via AIN input
 - DIN trigger input for chaos perturbation
 - OLED display with real-time trajectory visualization
-- 5-second boot animation (snail crawling with `;@-` / `;@ ~`)
 
 ## Installation
 
@@ -57,6 +56,6 @@ D* indicates a recent DIN trigger (flashing)
 A= A- A# A@  Ain coupling strength indicator:
 _ → - → = → # → @ represents 0%–100% The higher the external CV
 
-Enjoy the sludge...... 🐌
+ ;@- ;@ ~ .......Enjoy the sludge...... 🐌
 
 <img width="595" height="455" alt="截屏2026-05-24 12 04 03" src="https://github.com/user-attachments/assets/3e45c6ce-dc3b-440a-933f-b35a159c51f6" />
