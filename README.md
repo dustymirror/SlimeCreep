@@ -1,5 +1,6 @@
 # SlimeCreep
 Slime Creep - A triple- duo channel chaotic CV generator for EuroPi, inspired by NLC Sloth.
+DustyMirror 2026
 
 ![Version](https://img.shields.io/badge/version-1.11-blue)
 ![EuroPi](https://img.shields.io/badge/EuroPi-compatible-green)
