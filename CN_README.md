@@ -3,7 +3,7 @@
 ![版本](https://img.shields.io/badge/version-1.13-blue)
 ![EuroPi](https://img.shields.io/badge/EuroPi-兼容-green)
 
-**Slime Creep** 是一个为 EuroPi 开发的三通道混沌电压发生器，灵感来自NLC SLOTH。
+**Slime Creep** 是一个为 EuroPi 开发的三通道混沌电压发生器，灵感来自NLC SLOTH。DustyMirror 2026
 
 ---
 
